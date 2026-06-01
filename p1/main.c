@@ -1,36 +1,41 @@
-#include <stdio.h>
+#include <stdio.h> // scanf, printf 사용
 
 int main()
 {
-char x[10];
-char *p, *q;
+char x[11]; // 영어문자 10개 + 문자열 끝 표시 '\0' 저장 공간
+char *p, *q; // p는 기준 문자, q는 비교용 포인터
 
-int maxCount = 0;
-char maxChar;
+char result; // 가장 많이 나온 문자를 저장할 변수
+int max = 0; // 지금까지 가장 많이 나온 횟수
+int count; // 현재 기준 문자가 몇 번 나오는지 세는 변수
 
-printf("10개의 문자 입력 : ");
+scanf("%s", x); // 문자열 입력
+// 예: domination
+// x[0]~x[9]에 문자 저장, x[10]에 '\0' 저장
 
-for (p = x; p < x + 10; p++)
-scanf(" %c", p);
-
-for (p = x; p < x + 10; p++)
+for (p = x; p < x + 10; p++) // p가 x[0]부터 x[9]까지 이동
 {
-int count = 0;
+count = 0; // 새 문자를 검사할 때마다 개수 초기화
 
-for (q = x; q < x + 10; q++)
+for (q = x; q < x + 10; q++) // q도 x[0]부터 x[9]까지 전체 검사
 {
-if (*p == *q)
-count++;
-}
-
-if (count > maxCount)
+if (*p == *q) // p가 가리키는 문자와 q가 가리키는 문자가 같으면
 {
-maxCount = count;
-maxChar = *p;
+count++; // 같은 문자를 찾았으므로 개수 증가
 }
 }
 
-printf("%c %d\n", maxChar, maxCount);
+if (count > max) // 현재 문자가 기존 최댓값보다 더 많이 나왔으면
+{
+max = count; // 최대 빈도수 갱신
+result = *p; // 그 문자를 결과 문자로 저장
+}
+// 여기서 >= 를 쓰면 안 됨
+// 빈도수가 같은 문자가 여러 개일 때 나중 문자가 저장되기 때문
+// 문제 조건은 "먼저 나타난 문자" 출력이므로 반드시 count > max
+}
 
-return 0;
+printf("%c %d", result, max); // 문자와 빈도수 출력
+
+return 0; // 정상 종료
 }
